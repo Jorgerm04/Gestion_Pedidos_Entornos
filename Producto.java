@@ -1,5 +1,6 @@
 package Gestion_Pedidos;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Producto {
@@ -18,9 +19,13 @@ public class Producto {
 	 */
 	public Producto(String nombre,Double precio, int cantidad) {
 		this.Nombre=nombre.toUpperCase();
-		this.Precio=(double)(Math.round(precio*100)/100);
+		this.Precio=precio;
 		this.Cantidad=cantidad;
-		
+	}
+	
+	public Producto(String nombre,Double precio) {
+		this.Nombre=nombre.toUpperCase();
+		this.Precio=precio;
 	}
 	
 	/**
@@ -63,25 +68,34 @@ public class Producto {
 	}
 	
 	/**
-	 * Metodo para crear productos
-	 * @param p
-	 */
-	public void crearProducto(Producto p) {
-		System.out.println("\nDigame el nombre del producto: ");
-		p.setNombre(sc.nextLine());
-		System.out.println("Digame el precio del producto: ");
-		p.setPrecio(sc.nextDouble());
-	}
-	
-	/**
 	 * Metodo para mostrar la informacion de los productos
 	 * @param p
 	 */
-	public void mostrarProducto(Producto p) {
-		System.out.println("Nombre: "+p.getNombre());
-		System.out.println("Precio: "+p.getPrecio()+" euros");
+	public void mostrarProducto(ArrayList<Producto> p) {
+		
+		boolean valido = false;
+				
+				while(!valido) {
+					String nombre;
+					System.out.println("Introduzaca el nombre del producto que quiere mostrar");
+					nombre=sc.nextLine();
+					for(int i=0;i<p.size();i++){
+						if(p.get(i).getNombre().equalsIgnoreCase(nombre)) {
+							System.out.println("Nombre: "+p.get(i).getNombre());
+							System.out.println("Precio: "+p.get(i).getPrecio());
+							valido=true;
+						}
+					}
+					if(!valido) {
+						System.out.println("Producto no encontrado con el nombre "+nombre);
+					} 
+				}
 	}
-	
+	/**
+	 * Metodo para controlar el stockd de productos
+	 * @param cantidad
+	 * @param p
+	 */
 	public void controlStock(int cantidad,Producto p) {
 			
 			//Si cantidad es mayor que el tamaño del array el cliente no podra comprar mas productos de los que hay en stock

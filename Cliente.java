@@ -1,8 +1,6 @@
 package Gestion_Pedidos;
 
-import java.text.SimpleDateFormat;
-
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cliente {
@@ -33,6 +31,23 @@ public class Cliente {
 		this.Direccion=direccion;
 		this.Historial=historial;
 	}
+	/**
+	 * Constructor sin historial
+	 * @param nombre
+	 * @param apellidos
+	 * @param fecha
+	 * @param telefono
+	 * @param direccion
+	 * @param historial
+	 */
+	public  Cliente(String nombre,String apellidos,String fecha,String telefono,String direccion){
+		this.Nombre=nombre.toLowerCase();
+		this.Apellidos=apellidos.toUpperCase();
+		this.FechaDeAlta=fecha;
+		this.Telefono=telefono;
+		this.Direccion=direccion;
+	}
+	
 	/**
 	 * Constructor vacio de Cliente
 	 */
@@ -88,64 +103,34 @@ public class Cliente {
 	public void setHistorial(String historial) {
 		Historial = historial;
 	}
-
-	/**
-	 * Metodo que pregunta el numero. Si el numero no cumple la condicion te vuelve a preguntar 
-	 * hasta que cumpla la condicion
-	 */
-		public void ponerTelef() {
-			boolean valido = false;
-			String telefono;
-		    while (!valido) {
-		      System.out.println("Introduce un numero de telefono: ");
-		      telefono = sc.nextLine();
-		      if (telefono.length()==9&&(telefono.startsWith("6")||telefono.startsWith("7")||telefono.startsWith("8")||telefono.startsWith("9"))) {
-		        this.Telefono = telefono;
-		        valido = true;
-		      } else {
-		        System.err.println("El numero de telefono no es valido, por favor intentalo de nuevo.");
-		      }
-		    }
-			
-		}
 	
 	public void añadirHistorial(String cadena) {
 		Historial=Historial.concat(cadena);
 	}
 	
 	/**
-	 * Metodo para crear los distintos clientes
-	 * @param c
-	 */
-	public void crearCliente(Cliente c) {
-		
-		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-		Date fechaActual = new Date();
-		String fechaFormateada = formatoFecha.format(fechaActual);
-		
-		System.out.println("\nIntroduzca el nombre del cliente: ");
-		c.setNombre(sc.nextLine());
-		System.out.println("Introduzca el apellido del cliente: ");
-		c.setApellidos(sc.nextLine());
-		c.setFechaDeAlta(fechaFormateada);
-		//Cliente1.setTelefono();
-		c.ponerTelef();
-		System.out.println("Introduzca la direccion del cliente: ");
-		c.setDireccion(sc.nextLine());
-		c.setHistorial(" ");
-		
-	}
-	
-	/**
 	 * Metodo para mostrar los distintos clientes
 	 * @param c
 	 */
-	public void mostrarCliente(Cliente c) {
-		System.out.println("Nombre: "+c.getNombre());
-		System.out.println("Apellido: "+c.getApellidos());
-		System.out.println("Fecha de alta: "+c.getFechaDeAlta());
-		System.out.println("Telefono: "+c.getTelefono());
-		System.out.println("Direccion: "+c.getDireccion());
-		System.out.println("Historial: "+c.getHistorial());
+	public void mostrarCliente(ArrayList<Cliente> c) {
+		boolean valido = false;
+		
+		while(!valido) {
+			String telefono;
+			System.out.println("Introduzaca el numero de telefono del cliente que quiere mostrar");
+			telefono=sc.nextLine();
+			for(int i=0;i<c.size();i++){
+				if(c.get(i).getTelefono().equals(telefono)) {
+					System.out.println("Nombre: "+c.get(i).getNombre());
+					System.out.println("Apellido: "+c.get(i).getApellidos());
+					System.out.println("Telefono: "+c.get(i).getTelefono());
+					System.out.println("Direccion: "+c.get(i).getDireccion());
+					valido=true;
+				}
+			}
+			if(!valido) {
+				System.out.println("Cliente no encontrado con el telefono "+telefono);
+			} 
+		}
 	}
 }
