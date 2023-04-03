@@ -41,6 +41,60 @@ public class PasarelaDePago {
 		CodigoPago = codigoPago;
 	}
 	
+	public void realizarPago(Pedido p){
+		int opcion;
+		Scanner sc=new Scanner(System.in);
+		
+		System.out.println("\nComo desea realizar el pago: ");
+		System.out.println("1. Efectivo");
+		System.out.println("2. Tarjeta");
+		System.out.println("3. Cuenta bancaria");
+		
+		opcion=sc.nextInt();
+		sc.nextLine();
+		
+		long codigoLong;
+		String codigoString;
+		switch(opcion) {
+		case 1:{
+			PagarEfectivo();
+			p.mostrarPedido();
+			
+			codigoLong=getCodigoPago();
+			System.out.println("Codigo de pago: "+getCodigoPago());
+			
+			codigoString=String.valueOf(codigoLong);
+		}
+		break;
+		
+		case 2:{
+			PagoTarjeta();
+			p.mostrarPedido();
+			codigoLong=getCodigoPago();
+			System.out.println("Codigo de pago: "+getCodigoPago());
+			
+			codigoString=String.valueOf(codigoLong);	
+		}
+		break;
+		
+		case 3:{
+			PagoCuenta();
+			p.mostrarPedido();
+			codigoLong=getCodigoPago();
+			System.out.println("Codigo de pago: "+getCodigoPago());
+			
+			codigoString=String.valueOf(codigoLong);
+		}
+		break;
+		
+		default:{
+			System.err.println("Opcion no valida");
+		}
+		break;
+		}
+		
+	}
+	
 	/**
 	 * Metodo para pagar el pedido en efectivo
 	 */
@@ -105,7 +159,6 @@ public class PasarelaDePago {
 
                 cent=(int)(residuo);
 
-                System.out.println("\nLe han sobrado " + (double)(Math.round(cambio*100)/100)+" euros");
                 System.out.println("\nAquí tiene su cambio");
 
                 System.out.println("\nBilletes de 500 euros:  "+quinientos);

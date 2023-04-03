@@ -1,5 +1,6 @@
 package Gestion_Pedidos;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -11,6 +12,7 @@ public class Pedido {
 	private Double ImporteTotal;
 	private PasarelaDePago Pago;
 	private String Estado;
+	int opcion1,opcion2;
 
 	Scanner sc=new Scanner(System.in);
 	
@@ -105,234 +107,106 @@ public class Pedido {
 		Estado = estado;
 	}
 	
-	/**
-	 * Metodo para agregar el primer producto al pedido
-	 * @param p1
-	 * @param p2
-	 * @param p3
-	 * @param p4
-	 * @param p5
-	 * @param pedi
-	 */
-	public void agregarProducto1(Producto p1,Producto p2,Producto p3, Producto p4, Producto p5, Pedido pedi) {
-		int opcion,unidades1;
-		double price1;
-		
-		
-		System.out.println("\n#####Seleccione el producto que desea#####");
-		System.out.println("1. "+p1.getNombre());
-		System.out.println("2. "+p2.getNombre());
-		System.out.println("3. "+p3.getNombre());
-		System.out.println("4. "+p4.getNombre());
-		System.out.println("5. "+p5.getNombre());
-		
-		opcion=sc.nextInt();
-		sc.nextLine();
-		
-		//Switch para elegir que producto escoger para el pedido y la cantidad
-		switch(opcion) {
-		case 1:{
-			price1=p1.getPrecio();
-			
-			System.out.println("\nCuantas unidades quiere");
-			unidades1=sc.nextInt();
-			p1.setCantidad(unidades1);
-			price1=unidades1*price1;
-			p1.controlStock(unidades1,p1);
-			
-			pedi.setImporteTotal(price1);
-			pedi.setProducto1(p1);	
-		}
-		break;
-		
-		case 2:{
-			price1=p2.getPrecio();
-			
-			System.out.println("\nCuantas unidades quiere");
-			unidades1=sc.nextInt();
-			p2.setCantidad(unidades1);
-			price1=unidades1*price1;
-			p2.controlStock(unidades1,p2);
-			
-			pedi.setImporteTotal(price1);
-			pedi.setProducto1(p2);
-			
-		}
-		break;
-		
-		case 3:{
-			price1=p3.getPrecio();
-			
-			System.out.println("\nCuantas unidades quiere");
-			unidades1=sc.nextInt();
-			p3.setCantidad(unidades1);
-			price1=unidades1*price1;
-			p3.controlStock(unidades1,p3);
-			
-			pedi.setImporteTotal(price1);
-			pedi.setProducto1(p3);
-			
-		}
-		break;
-		
-		case 4:{
-			price1=p4.getPrecio();
-			
-			System.out.println("\nCuantas unidades quiere");
-			unidades1=sc.nextInt();
-			p4.setCantidad(unidades1);
-			price1=unidades1*price1;
-			p4.controlStock(unidades1,p4);
-			
-			pedi.setImporteTotal(price1);
-			pedi.setProducto1(p4);
-			
-		}
-		break;
-		
-		case 5:{
-			price1=p5.getPrecio();
-			
-			System.out.println("\nCuantas unidades quiere");
-			unidades1=sc.nextInt();
-			p5.setCantidad(unidades1);
-			price1=unidades1*price1;
-			p5.controlStock(unidades1,p5);
-			
-			pedi.setImporteTotal(price1);
-			pedi.setProducto1(p5);
-			
-		}
-		break;
-		
-		default:{
-			System.err.println("Opcion no valida");
-			
-		}
-		break;
-		}
-		
 	
-		
-		System.out.println("\nEl precio actual de tu pedido es de "+pedi.getImporteTotal()+" euros");
+	public void inicioSesion(ArrayList<Cliente>c) {
+		boolean valido = false;
+				
+				while(!valido) {
+					String telefono;
+					System.out.println("Introduzaca su numero de telefono para realizar el pedido");
+					telefono=sc.nextLine();
+					for(int i=0;i<c.size();i++){
+						if(c.get(i).getTelefono().equals(telefono)) {
+							System.out.println("Telefono encontrado");
+							valido=true;
+							setCliente(c.get(i));
+						}
+					}
+					if(!valido) {
+						System.out.println("El telefono "+telefono+"no corresponde a ningun cliente");
+					} 
+				}
 		
 	}
 	
-	/**
-	 * Metodo igual que el anterior pero añade el segundo producto
-	 * @param p1
-	 * @param p2
-	 * @param p3
-	 * @param p4
-	 * @param p5
-	 * @param pedi
-	 */
-	public void agregarProducto2(Producto p1,Producto p2,Producto p3, Producto p4, Producto p5, Pedido pedi) {
+	
+	public void agregarProducto1(ArrayList<Producto>p) {
+		int unidades1;
+		double price1;
 		
-		int opcion,unidades2;
-		double price2;
+		System.out.println("Selecciona un producto");
 		
-		System.out.println("\n#####Seleccione el producto que desea#####");
-		System.out.println("1. "+p1.getNombre());
-		System.out.println("2. "+p2.getNombre());
-		System.out.println("3. "+p3.getNombre());
-		System.out.println("4. "+p4.getNombre());
-		System.out.println("5. "+p5.getNombre());
+		for(int i=0;i<p.size();i++){
+				System.out.println(i+1+". "+p.get(i).getNombre());
+		}
 		
-		opcion=sc.nextInt();
+		opcion1=sc.nextInt();
 		sc.nextLine();
 		
-		
-		
-		switch(opcion) {
-		case 1:{
-			price2=p1.getPrecio();
-			
-			System.out.println("\nCuantas unidades quiere");
-			unidades2=sc.nextInt();
-			p1.setCantidad(unidades2);
-			price2=unidades2*price2;
-			p1.controlStock(unidades2,p1);
-			
-			pedi.setImporteTotal(pedi.getImporteTotal()+price2);
-			pedi.setProducto2(p1);
-			
-			
-			
-			
+		for(int i=0;i<p.size();i++){
+			if(opcion1-1==i) {
+				price1=p.get(i).getPrecio();
+				boolean valido=false;
+				while(!valido) {
+						System.out.println("\nCuantas unidades quiere");
+						unidades1=sc.nextInt();
+						p.get(i).setCantidad(unidades1);
+						price1=unidades1*price1;
+						p.get(i).controlStock(unidades1,p.get(i));
+						if(unidades1<=30) {
+						valido=true;
+						} else {
+							price1=p.get(i).getPrecio();
+						}
+					
+						
+				}
+				setImporteTotal(price1);
+				setProducto1(p.get(i));
+				
 		}
-		break;
-		
-		case 2:{
-			price2=p2.getPrecio();
-			
-			System.out.println("\nCuantas unidades quiere");
-			unidades2=sc.nextInt();
-			p2.setCantidad(unidades2);
-			price2=unidades2*price2;
-			p2.controlStock(unidades2,p2);
-			
-			pedi.setImporteTotal(pedi.getImporteTotal()+price2);
-			pedi.setProducto2(p2);
-			
 		}
-		break;
+		System.out.println("\nEl precio actual de tu pedido es de "+getImporteTotal()+" euros");
 		
-		case 3:{
-			price2=p3.getPrecio();
-			
-			System.out.println("\nCuantas unidades quiere");
-			unidades2=sc.nextInt();
-			p3.setCantidad(unidades2);
-			price2=unidades2*price2;
-			p3.controlStock(unidades2,p3);
-			
-			pedi.setImporteTotal(pedi.getImporteTotal()+price2);
-			pedi.setProducto2(p3);
-			
-		}
-		break;
-		
-		case 4:{
-			price2=p4.getPrecio();
-			
-			System.out.println("\nCuantas unidades quiere");
-			unidades2=sc.nextInt();
-			p4.setCantidad(unidades2);
-			price2=unidades2*price2;
-			p4.controlStock(unidades2,p4);
-			
-			pedi.setImporteTotal(pedi.getImporteTotal()+price2);
-			pedi.setProducto2(p4);
-			
-		}
-		break;
-		
-		case 5:{
-			price2=p5.getPrecio();
-			
-			System.out.println("\nCuantas unidades quiere");
-			unidades2=sc.nextInt();
-			p5.setCantidad(unidades2);
-			price2=unidades2*price2;
-			p5.controlStock(unidades2,p5);
-			
-			pedi.setImporteTotal(pedi.getImporteTotal()+price2);
-			pedi.setProducto2(p5);
-			
-		}
-		break;
-		
-		default:{
-			System.err.println("Opcion no valida");
-			
-		}
-		break;
-		}
-		
-
-		System.out.println("\nEl precio actual de tu pedido es de "+pedi.getImporteTotal()+" euros");
+	}
 	
+	
+	public void agregarProducto2(ArrayList<Producto>p) {
+		int unidades2;
+		double price2;
+		
+		System.out.println("Selecciona un producto");
+		
+		for(int i=0;i<p.size();i++){
+				System.out.println(i+1+". "+p.get(i).getNombre());
+		}
+		
+		opcion2=sc.nextInt();
+		sc.nextLine();
+		
+		for(int i=0;i<p.size();i++){
+			if(opcion2-1==i) {
+				price2=p.get(i).getPrecio();
+				boolean valido=false;
+				while(!valido) {
+					System.out.println("\nCuantas unidades quiere");
+					unidades2=sc.nextInt();
+					p.get(i).setCantidad(unidades2);
+					price2=unidades2*price2;
+					p.get(i).controlStock(unidades2,p.get(i));
+					if(unidades2<=30) {
+						valido=true;
+						}else {
+							price2=p.get(i).getPrecio();
+						}
+				}
+				
+				setImporteTotal(price2+getImporteTotal());
+				setProducto2(p.get(i));
+				
+		}
+		}
+		System.out.println("\nEl precio actual de tu pedido es de "+getImporteTotal()+" euros");
 		
 	}
 	
