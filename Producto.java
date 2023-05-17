@@ -97,7 +97,9 @@ public class Producto {
 	 * @param p
 	 */
 	public void controlStock(int cantidad,Producto p) {
-			
+		
+		boolean valido = false;
+		
 			//Si cantidad es mayor que el tamaño del array el cliente no podra comprar mas productos de los que hay en stock
 			if(cantidad>p.getStock().length) {
 				System.out.println("No tenemos tanta cantidad de producto");

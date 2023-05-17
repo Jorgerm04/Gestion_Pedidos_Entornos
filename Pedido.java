@@ -150,13 +150,14 @@ public class Pedido {
 				while(!valido) {
 						System.out.println("\nCuantas unidades quiere");
 						unidades1=sc.nextInt();
-						p.get(i).setCantidad(unidades1);
-						price1=unidades1*price1;
-						p.get(i).controlStock(unidades1,p.get(i));
-						if(unidades1<=30) {
-						valido=true;
+						if(unidades1<=30||unidades1>0) {
+							p.get(i).setCantidad(unidades1);
+							price1=unidades1*price1;
+							p.get(i).controlStock(unidades1,p.get(i));
+							price1=p.get(i).getPrecio();	
+							valido=true;
 						} else {
-							price1=p.get(i).getPrecio();
+							System.out.println("Unidad no valida");
 						}
 					
 						
@@ -191,13 +192,14 @@ public class Pedido {
 				while(!valido) {
 					System.out.println("\nCuantas unidades quiere");
 					unidades2=sc.nextInt();
-					p.get(i).setCantidad(unidades2);
-					price2=unidades2*price2;
-					p.get(i).controlStock(unidades2,p.get(i));
-					if(unidades2<=30) {
+					if(unidades2<31&&unidades2>0) {
+						p.get(i).setCantidad(unidades2);
+						price2=unidades2*price2;
+						p.get(i).controlStock(unidades2,p.get(i));
+						price2=p.get(i).getPrecio();
 						valido=true;
 						}else {
-							price2=p.get(i).getPrecio();
+							System.out.println("Unidades no validas");
 						}
 				}
 				
