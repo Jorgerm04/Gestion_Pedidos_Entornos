@@ -150,11 +150,13 @@ public class Pedido {
 				while(!valido) {
 						System.out.println("\nCuantas unidades quiere");
 						unidades1=sc.nextInt();
-						if(unidades1<=30||unidades1>0) {
+						if(unidades1<=30&&unidades1>0) {
 							p.get(i).setCantidad(unidades1);
 							price1=unidades1*price1;
 							p.get(i).controlStock(unidades1,p.get(i));
-							price1=p.get(i).getPrecio();	
+							setImporteTotal(price1);
+							setProducto1(p.get(i));
+							System.out.println("\nEl precio actual de tu pedido es de "+getImporteTotal()+" euros");
 							valido=true;
 						} else {
 							System.out.println("Unidad no valida");
@@ -162,13 +164,10 @@ public class Pedido {
 					
 						
 				}
-				setImporteTotal(price1);
-				setProducto1(p.get(i));
+				
 				
 		}
 		}
-		System.out.println("\nEl precio actual de tu pedido es de "+getImporteTotal()+" euros");
-		
 	}
 	
 	
@@ -196,20 +195,19 @@ public class Pedido {
 						p.get(i).setCantidad(unidades2);
 						price2=unidades2*price2;
 						p.get(i).controlStock(unidades2,p.get(i));
-						price2=p.get(i).getPrecio();
+						setImporteTotal(price2+getImporteTotal());
+						setProducto2(p.get(i));
+						System.out.println("\nEl precio actual de tu pedido es de "+getImporteTotal()+" euros");
 						valido=true;
 						}else {
 							System.out.println("Unidades no validas");
 						}
 				}
 				
-				setImporteTotal(price2+getImporteTotal());
-				setProducto2(p.get(i));
+				
 				
 		}
 		}
-		System.out.println("\nEl precio actual de tu pedido es de "+getImporteTotal()+" euros");
-		
 	}
 	
 	/**

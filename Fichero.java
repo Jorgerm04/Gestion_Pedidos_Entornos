@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class Fichero {
-	String ClientesTxt="c:/Users/jorge/Desktop/Clientes.txt";
-	String ProductosTxt="c:/Users/jorge/Desktop/Productos.txt";
+	String ClientesTxt="C:/Users/jorge/eclipse-workspace/Practica_Git/src/Gestion_Pedidos/Clientes.txt";
+	String ProductosTxt="C:/Users/jorge/eclipse-workspace/Practica_Git/src/Gestion_Pedidos/Productos.txt";
 	
 	/**
 	 * Metodo que carga todos los clientes del fichero de texto en el Arraylist de clientes
