@@ -5,21 +5,18 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Fichero {
-	String ClientesTxt="c:/Users/jorge/Desktop/Clientes.txt";
-	String ProductosTxt="c:/Users/jorge/Desktop/Productos.txt";
-	
+	String ClientesTxt="C:/Users/jorge/eclipse-workspace/Practica_Git/src/Gestion_Pedidos/Clientes.txt";
+	String ProductosTxt="C:/Users/jorge/eclipse-workspace/Practica_Git/src/Gestion_Pedidos/Productos.txt";
+	String PedidosTxt="C:/Users/jorge/eclipse-workspace/Practica_Git/src/Gestion_Pedidos/Pedidos.txt";
 	/**
 	 * Metodo que carga todos los clientes del fichero de texto en el Arraylist de clientes
-	 * @param c Arraylist de clientes
+	 * @param clientesPricipal Arraylist de clientes guardados
 	 */
-	public void fileScannerCliente(ArrayList<Cliente>c) {
+	public void fileScannerCliente(ArrayList<Cliente>clientesPrincipal) {
 		try {
             File archivo = new File(ClientesTxt);
             Scanner sca = new Scanner(archivo);
@@ -34,7 +31,7 @@ public class Fichero {
                 String direccion = datos[4];
         		
                 Cliente cliente = new Cliente(nombre, apellido,fecha,telefono, direccion);
-                c.add(cliente);
+                clientesPrincipal.add(cliente);
             }
 
         } catch (FileNotFoundException e) {
@@ -46,9 +43,9 @@ public class Fichero {
 	}
 	/**
 	 * Metodo que carga todos los productos del fichero de texto en el ArrayList de productos
-	 * @param p ArrayList de productos
+	 * @param productosPricipal ArrayList de productos guardados
 	 */
-	public void fileScannerProducto(ArrayList<Producto>p) {
+	public void fileScannerProducto(ArrayList<Producto>productoPrincipal) {
 		try {
             File archivo = new File(ProductosTxt);
             Scanner sca = new Scanner(archivo);
@@ -56,11 +53,21 @@ public class Fichero {
             while (sca.hasNextLine()) {
                 String linea = sca.nextLine();
                 String[] datos = linea.split(",");
-                String nombre = datos[0];
-                String precio = datos[1];
-        		
-                Producto producto = new Producto(nombre,Double.parseDouble(precio));
-                p.add(producto);
+                
+                if (datos.length >= 2) {
+                    String nombre = datos[0];
+                    String precio = datos[1];
+                    String cantidad = datos[2];
+                    Producto producto = new Producto(nombre,Double.parseDouble(precio),Integer.parseInt(cantidad));
+                    for(int i=0;i<Integer.parseInt(cantidad);i++) {
+			        	producto.getStock()[i]=1;
+			        }
+                    productoPrincipal.add(producto);
+                } else {
+                    System.out.println("Sin contenido");
+                    
+                }
+                
             }
 
         } catch (FileNotFoundException e) {
@@ -71,112 +78,76 @@ public class Fichero {
 		
 	}
 	
-	/**
-	 * Metodo para crear un cliente, que se guarden sus datos en el documentos de texto
-	 * y que se añada al Arraylist de clientes.
-	 * @param c Arrayist de clientes
-	 */
-	public void escribeClienteFichero(ArrayList<Cliente>c) {
-		Scanner sca= new Scanner(System.in);
-		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-		Date fechaActual = new Date();
-		String fechaFormateada = formatoFecha.format(fechaActual);
+	public void guardarCliente(ArrayList<Cliente>clientesNuevos,ArrayList<Cliente>clientesPrincipal) {
 		
-		System.out.println("Introduce el nombre:");
-        String nombre = sca.nextLine();
-
-        System.out.println("Introduce el apellido:");
-        String apellido = sca.nextLine();
-        
-        String fechaAlta = fechaFormateada;
-
-        //Comprobacion del numero de telefono
-        boolean valido=false;
-        
-        String telefono = null;
-        
-        while(!valido) {
-        	valido=true;
-        	System.out.println("Introduce el teléfono:");
-            telefono = sca.nextLine();
-            
-            if(telefono.length()==9&&(telefono.startsWith("6")||telefono.startsWith("7")||telefono.startsWith("8")||telefono.startsWith("9"))) {
-            	for(int i=0;i<c.size();i++) {
-            		if(c.get(i).getTelefono().equals(telefono)) {
-            			valido=false;
-            			System.out.println("El numero de telefono ya esta asociado con un cliente existente");
-            		}
-            	}
-            	
-            } else {
-            	System.out.println("Numero no valido");
-            	valido=false;
-            }
-        	
-        }
-        //Finaliza la comprobacion del telefono
-
-        System.out.println("Introduce la dirección:");
-        String direccion = sca.nextLine();
-        
-
-        Cliente cliente = new Cliente(nombre, apellido, fechaAlta, telefono, direccion);
-        
-        
-        c.add(cliente);
 
         try {
             PrintWriter printWriter = new PrintWriter(new FileWriter(ClientesTxt, true));
-            printWriter.println(cliente.getNombre() + "," + cliente.getApellidos() + "," + cliente.getFechaDeAlta() + ","+ cliente.getTelefono() + "," + cliente.getDireccion());
+            printWriter.println(clientesNuevos.get(0).getNombre() + "," + clientesNuevos.get(0).getApellidos() 
+            		+ "," + clientesNuevos.get(0).getFechaDeAlta() + ","+ clientesNuevos.get(0).getTelefono() 
+            		+ "," + clientesNuevos.get(0).getDireccion());
             printWriter.close();
-            System.out.println("El cliente ha sido agregado correctamente al archivo.");
+            System.out.println("El cliente ha sido guadado correctamente al archivo.");
 
         } catch (IOException e) {
             System.out.println("Error al escribir en el archivo.");
             e.printStackTrace();
         }
+        
+        clientesPrincipal.add(clientesNuevos.get(0));
+        clientesNuevos.clear();
 		
 	}
 	
-	/**
-	 * Metodo para crear un producto, que se guarden sus datos en el documentos de texto
-	 * y que se añada al Arraylist de productos.
-	 * @param p Arrayist de productos
-	 */
-	public void escribeProductoFichero(ArrayList<Producto>p) {
-		Scanner sca= new Scanner(System.in);
-		
-		//Comprobacion del numero de telefono
-        boolean valido=false;
-        
-        String nombre = null;
-        
-        while(!valido) {
-        	valido=true;
-        	System.out.println("Introduce el nombre del producto:");
-            nombre = sca.nextLine();
-          
-            	for(int i=0;i<p.size();i++) {
-            		if(p.get(i).getNombre().equalsIgnoreCase(nombre)) {
-            			valido=false;
-            			System.out.println("El producto con ese nombre ya existe");
-            		}
-            	}
-        	
-        }
-        //Finaliza la comprobacion del nombre del producto
-
-        System.out.println("Introduce el precio:");
-        BigDecimal precio = sca.nextBigDecimal();
-
-        Producto producto = new Producto(nombre,  precio.doubleValue());
-        p.add(producto);
+	public void guardarProducto(ArrayList<Producto>productosNuevos,ArrayList<Producto>productosPrincipal) {
 
         try {
-            PrintWriter printWriter = new PrintWriter(new FileWriter(ProductosTxt, true));
-            printWriter.println(producto.getNombre() + "," + producto.getPrecio());
+            PrintWriter printWriter = new PrintWriter(new FileWriter(ProductosTxt,true));
+            printWriter.println(productosNuevos.get(0).getNombre() + "," + productosNuevos.get(0).getPrecio()+ "," + productosNuevos.get(0).getCantidad());
             printWriter.close();
             System.out.println("El producto ha sido agregado correctamente al archivo.");
+
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo.");
+            e.printStackTrace();
+        }
+        
+        productosPrincipal.add(productosNuevos.get(0));
+        productosNuevos.clear();
+		
+	}
+	
+	public void cambiarCantidadProducto(ArrayList<Producto>productosPrincipal) {
+
+        try {
+        	 PrintWriter printWriterBorrar = new PrintWriter(new FileWriter(ProductosTxt));
+             printWriterBorrar.close();
+        	
+        	for(int i=0;i<productosPrincipal.size();i++) {
+        		PrintWriter printWriter = new PrintWriter(new FileWriter(ProductosTxt,true));
+                printWriter.println(productosPrincipal.get(i).getNombre() + "," + productosPrincipal.get(i).getPrecio()+ "," + productosPrincipal.get(i).getCantidad());
+                printWriter.close();
+        	}
+           
+            
+
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo.");
+            e.printStackTrace();
+        }
+	}
+	
+	public void guardarPedido(Pedido pedi) {
+
+        try {
+            PrintWriter printWriter = new PrintWriter(new FileWriter(PedidosTxt,true));
+            if(pedi.getProducto2()==null) {
+                printWriter.println(pedi.getCliente().getTelefono() + "," +pedi.getProducto1().getNombre()+ "," +pedi.getPrecio1()+","+pedi.getUnidades1()+","+pedi.getFechaPedido());
+            } else {
+            	printWriter.println(pedi.getCliente().getTelefono() + "," +pedi.getProducto1().getNombre()+ "," +pedi.getPrecio1()+","+pedi.getUnidades1()+","+pedi.getFechaPedido());
+            	printWriter.println(pedi.getCliente().getTelefono() + "," +pedi.getProducto2().getNombre()+ "," +pedi.getPrecio2()+","+pedi.getUnidades2()+","+pedi.getFechaPedido());
+            }
+            printWriter.close();
 
         } catch (IOException e) {
             System.out.println("Error al escribir en el archivo.");

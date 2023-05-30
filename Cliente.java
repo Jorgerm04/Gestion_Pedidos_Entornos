@@ -1,6 +1,8 @@
 package Gestion_Pedidos;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Cliente {
@@ -9,8 +11,6 @@ public class Cliente {
 	private String FechaDeAlta;
 	private String Telefono;
 	private String Direccion;
-
-	private String Historial;
 	
 	Scanner sc = new Scanner(System.in);
 	
@@ -21,24 +21,6 @@ public class Cliente {
 	 * @param fecha 
 	 * @param telefono
 	 * @param direccion
-	 * @param historial
-	 */
-	public  Cliente(String nombre,String apellidos,String fecha,String telefono,String direccion,String historial){
-		this.Nombre=nombre.toLowerCase();
-		this.Apellidos=apellidos.toUpperCase();
-		this.FechaDeAlta=fecha;
-		this.Telefono=telefono;
-		this.Direccion=direccion;
-		this.Historial=historial;
-	}
-	/**
-	 * Constructor sin historial
-	 * @param nombre
-	 * @param apellidos
-	 * @param fecha
-	 * @param telefono
-	 * @param direccion
-	 * @param historial
 	 */
 	public  Cliente(String nombre,String apellidos,String fecha,String telefono,String direccion){
 		this.Nombre=nombre.toLowerCase();
@@ -94,18 +76,55 @@ public class Cliente {
 	public void setDireccion(String direccion) {
 		Direccion = direccion;
 	}
-
-
-	public String getHistorial() {
-		return Historial;
-	}
-
-	public void setHistorial(String historial) {
-		Historial = historial;
-	}
 	
-	public void añadirHistorial(String cadena) {
-		Historial=Historial.concat(cadena);
+	public void crearCliente(ArrayList<Cliente>clientesNuevos,ArrayList<Cliente>clientesPrincipal) {
+		Scanner sca= new Scanner(System.in);
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+		Date fechaActual = new Date();
+		String fechaFormateada = formatoFecha.format(fechaActual);
+		
+		System.out.println("Introduce el nombre:");
+        String nombre = sca.nextLine();
+
+        System.out.println("Introduce el apellido:");
+        String apellido = sca.nextLine();
+        
+        String fechaAlta = fechaFormateada;
+
+        //Comprobacion del numero de telefono
+        boolean valido=false;
+        
+        String telefono=null;
+        
+        while(!valido) {
+        	System.out.println("Introduce el telefono:");
+            telefono = sca.nextLine();
+            
+            if(telefono.length()==9&&(telefono.startsWith("6")||telefono.startsWith("7")||telefono.startsWith("8")||telefono.startsWith("9"))) {
+            	valido=true;
+            	for(int i=0;i<clientesPrincipal.size();i++) {
+            		if(clientesPrincipal.get(i).getTelefono().equals(telefono)) {
+            			valido=false;
+            			System.out.println("El numero de telefono ya esta asociado con un cliente existente");
+            		}
+            	}
+            	
+            } else {
+            	System.out.println("Numero no valido");
+            	valido=false;
+            }
+        	
+        }
+        //Finaliza la comprobacion del telefono
+
+        System.out.println("Introduce la direccion:");
+        String direccion = sca.nextLine();
+        
+
+        Cliente cliente = new Cliente(nombre, apellido, fechaAlta, telefono, direccion);
+        
+        
+        clientesNuevos.add(cliente);
 	}
 	
 	/**
