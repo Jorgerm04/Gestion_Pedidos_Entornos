@@ -14,9 +14,9 @@ public class Producto {
 	
 	/**
 	 * Contructor con parametros de Producto
-	 * @param nombre
-	 * @param precio
-	 * @param cantidad
+	 * @param nombre nombre del producto
+	 * @param precio precio del producto
+	 * @param cantidad cantidad disponible del producto
 	 */
 	public Producto(String nombre,double precio, int cantidad) {
 		this.Nombre=nombre.toUpperCase();
@@ -30,7 +30,6 @@ public class Producto {
 	public Producto() {
 	}
 	
-	//GETERS AND SETERS//
 	public String getNombre() {
 		return Nombre;
 	}
@@ -63,10 +62,18 @@ public class Producto {
 		Stock = stock;
 	}
 	
+	
+	/**
+	 * Metodo para crear un nuevo producto y añadirlo al ArrayList de productosNuevos
+	 * @param productosNuevos ArrayList de productos recien creados
+	 * @param productosPrincipal ArrayList de productos guardados
+	 */
 	public void crearProducto(ArrayList<Producto>productosNuevos,ArrayList<Producto>productosPrincipal) {
 		Scanner sca= new Scanner(System.in);
 		
-		//Comprobacion del nombre del producto
+		/**
+		 * Comprobacion del nombre del producto
+		 */
         boolean valido=false;
         
         String nombre = null;
@@ -84,7 +91,9 @@ public class Producto {
             	}
         	
         }
-        //Finaliza la comprobacion del nombre del producto
+        /**
+         * Finaliza la comprobacion del nombre del producto
+         */
 
         System.out.println("Introduce el precio:");
         double precio = sca.nextDouble();
@@ -103,8 +112,8 @@ public class Producto {
 	
 	
 	/**
-	 * Metodo para mostrar la informacion de los productos
-	 * @param p
+	 * Metodo para mostrar la informacion del producto seleccionado
+	 * @param p ArrayList de productos guardados
 	 */
 	public void mostrarProducto(ArrayList<Producto> p) {
 		
@@ -128,17 +137,23 @@ public class Producto {
 				}
 	}
 	/**
-	 * Metodo para controlar el stockd de productos
-	 * @param cantidad
-	 * @param p
+	 * Metodo para controlar el stock de productos
+	 * @param cantidad cantidad del producto
+	 * @param p producto seleccionado
 	 */
 	public void controlStock(int cantidad,Producto p) {
 		
-			//Si cantidad es mayor que el tamaño del array el cliente no podra comprar mas productos de los que hay en stock
+			/**
+			 * Si cantidad es mayor que el tamaño del array el cliente no podra comprar mas
+			 * productos de los que hay en stock
+			 */
 			if(cantidad>p.getCantidad()) {
 				System.out.println("No tenemos tanta cantidad de producto");
 				
-				//Si la catidad es igual al tamaño del array podra comprarlo pero no se podran comprar mas productos de ese tipo
+				/**
+				 * Si la catidad es igual al tamaño del array podra comprarlo
+				 * pero no se podran comprar mas productos de ese tipo
+				 */
 			}	else if(cantidad==p.getCantidad()) {
 				
 				for (int i = 0; i < cantidad; i++) {
@@ -155,8 +170,10 @@ public class Producto {
 				p.setCantidad(30);
 				
 				/**
-				 * Si la catidad es menor que el tamaño del array el cliente podra comprar la cantidad de productos deseada y se
-				 * indicara los productos que queden en stock, si quedan 5 o menos se repondran los productos
+				 * Si la catidad es menor que el tamaño del array el cliente 
+				 * podra comprar la cantidad de productos deseada y se 
+				 * indicara los productos que queden en stock, si quedan 5 
+				 * o menos se repondran los productos
 				 */
 			} else if(cantidad<p.getCantidad()&&cantidad>0){
 				

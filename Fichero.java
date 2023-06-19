@@ -78,6 +78,11 @@ public class Fichero {
 		
 	}
 	
+	/**
+	 * Metodo para guardar un cliente creado en el fichero de texto y pasarlo al ArrayList de clientesPrinciapl
+	 * @param clientesNuevos ArrayList de clientes recien creados
+	 * @param clientesPrincipal ArrayList de clientes guardados
+	 */
 	public void guardarCliente(ArrayList<Cliente>clientesNuevos,ArrayList<Cliente>clientesPrincipal) {
 		
 
@@ -99,6 +104,11 @@ public class Fichero {
 		
 	}
 	
+	/**
+	 * Metodo para guardar un producto creado en el fichero de texto y que se pase al Arraylist clientePrincipal
+	 * @param productosNuevos ArrayList de productos recien creados
+	 * @param productosPrincipal ArrayList de productos guardados
+	 */
 	public void guardarProducto(ArrayList<Producto>productosNuevos,ArrayList<Producto>productosPrincipal) {
 
         try {
@@ -117,6 +127,10 @@ public class Fichero {
 		
 	}
 	
+	/**
+	 * Metodo para cambiar la cantidad del producto en el fichero de texto al realizar el pedido
+	 * @param productosPrincipal ArrayList de productos guardados
+	 */
 	public void cambiarCantidadProducto(ArrayList<Producto>productosPrincipal) {
 
         try {
@@ -137,6 +151,10 @@ public class Fichero {
         }
 	}
 	
+	/**
+	 * Metodo para guardar un pedido realizado
+	 * @param pedi Pedido realizado
+	 */
 	public void guardarPedido(Pedido pedi) {
 
         try {

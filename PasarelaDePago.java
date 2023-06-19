@@ -8,9 +8,9 @@ public class PasarelaDePago {
 	public long CodigoPago;
 	
 	/**
-	 * Contructor con parametros
-	 * @param importe
-	 * @param codigoPago
+	 * Contructor de PasarelaDePago con parametros
+	 * @param importe importe que hay que pagar por el pedido
+	 * @param codigoPago codigo que se genera al pagar el pedido
 	 */
 	public PasarelaDePago(double importe, long codigoPago) {
 		this.Importe = (double)(Math.round(importe*100)/100);
@@ -24,7 +24,6 @@ public class PasarelaDePago {
 		
 	}
 	
-	//GETERS AND SETERS//
 	public double getImporte() {
 		return Importe;
 	}
@@ -41,6 +40,10 @@ public class PasarelaDePago {
 		CodigoPago = codigoPago;
 	}
 	
+	/**
+	 * Metodo para realizar el pado del pedido
+	 * @param p pedido realizado
+	 */
 	public void realizarPago(Pedido p){
 		int opcion;
 		Scanner sc=new Scanner(System.in);

@@ -18,8 +18,6 @@ public class Conexion {
 	private static final String PUERTO = "3306";
 	private static final String USUARIO = "root";
 	private static final String CLAVE = "1234";
-
-	// Para versión mysql-conector-java-5.1.6.jar + mysql Server 5.7
 	private static final String CONTROLADOR = "com.mysql.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://" + UBICACION + ":" + PUERTO + "/" + NOMBRE_BD
 			+ "?characterEncoding=utf8";
@@ -34,12 +32,18 @@ public class Conexion {
 		}
 	}
 
+	/**
+	 * Metodo que devuelve la conexion con la base de datos
+	 * @return
+	 */
 	public Connection conectar() {
 		Connection conexion = null;
 
 		try {
 
-			// Establecemos la conexión para eso java nos prporciona conexion =
+			/**
+			 * Establecemos la conexión con el controlador
+			 */
 			conexion = DriverManager.getConnection(URL, USUARIO, CLAVE);
 
 		} catch (SQLException e) {
@@ -50,8 +54,13 @@ public class Conexion {
 		return conexion;
 	}
 	
+	/**
+	 * Metodo para cerrar conexion con la base de datos
+	 * @param cn conexion con la base de datos
+	 * @param stm sentencia SQL
+	 * @param rs resultado de la sentencia SQL
+	 */
 	public static void cerrar_conexion(Connection cn, Statement stm, ResultSet rs) {
-		// Liberar recursos revisar el orden en el que se cierran, orden inverso
 		try {
 			if (rs != null) {
 				rs.close();
@@ -69,6 +78,10 @@ public class Conexion {
 
 	}
 	
+	/**
+	 * Metodo para cargar los clientes de la base de datos al ArrayList de clientes
+	 * @param clientesPrincipal ArrayList de clientes guardados
+	 */
 	public void cargarClientesBDD (ArrayList<Cliente>clientesPrincipal) {
 		
 		Conexion conexion = new Conexion();
@@ -79,10 +92,14 @@ public class Conexion {
 		selectTableSQL = "SELECT * FROM cliente";
 
 		try {
-			// Abrimos la conexion con la base de datos
+			/** 
+			 * Abrimos la conexion con la base de datos
+			 */
 			cn = conexion.conectar();
 			stm = cn.createStatement();
-			// Pasamos la consulta al ResultSet
+			/**
+			 *  Pasamos la consulta al ResultSet
+			 */
 			rs = stm.executeQuery(selectTableSQL);
 
 			while (rs.next()) {
@@ -96,7 +113,7 @@ public class Conexion {
 				
 				clientesPrincipal.add(cliente);
 			}
-		} catch (SQLException e) { // TODO: handle exception
+		} catch (SQLException e) {
 
 		} finally {
 			cerrar_conexion(cn, stm, rs);
@@ -105,6 +122,10 @@ public class Conexion {
 		}
 	}
 	
+	/**
+	 * Metodo para cargar los productos de la base de datos al ArrayList de productos
+	 * @param productosPrincipal ArrayList de productos guardados
+	 */
 	public void cargarProductosBDD (ArrayList<Producto>productosPrincipal) {
 			
 			Conexion conexion = new Conexion();
@@ -115,10 +136,14 @@ public class Conexion {
 			selectTableSQL = "SELECT * FROM producto";
 	
 			try {
-				// Abrimos la conexion con la base de datos
+				/**
+				 *  Abrimos la conexion con la base de datos
+				 */
 				cn = conexion.conectar();
 				stm = cn.createStatement();
-				// Pasamos la consulta al ResultSet
+				/**
+				 *  Pasamos la consulta al ResultSet
+				 */
 				rs = stm.executeQuery(selectTableSQL);
 	
 				while (rs.next()) {
@@ -136,7 +161,7 @@ public class Conexion {
 					
 					productosPrincipal.add(producto);
 				}
-			} catch (SQLException e) { // TODO: handle exception
+			} catch (SQLException e) {
 	
 			} finally {
 				cerrar_conexion(cn, stm, rs);
@@ -145,13 +170,21 @@ public class Conexion {
 			}
 		}
 	
+	/**
+	 * Metodo para insertar un cliente en la base de datos y guardarlo
+	 * tambien en el ArrayList de clientes
+	 * @param clientesNuevos ArrayList de clientes recien creados
+	 * @param clientesPrincipal ArrayList de clientes guardados
+	 */
 	public void insertarCliente(ArrayList<Cliente>clientesNuevos,ArrayList<Cliente>clientesPrincipal) {
 
 			Conexion conexion = new Conexion();
 			Connection cn = null;
 			PreparedStatement ps = null;
 
-			// Crear sentencia SQL para insertar en la base de datos
+			/**
+			 * Crear sentencia SQL para insertar en la base de datos
+			 */
 			insertTableSQL = "INSERT INTO cliente VALUES (?,?,?,?,?)";
 
 			try {
@@ -169,11 +202,11 @@ public class Conexion {
 				clientesPrincipal.add(clientesNuevos.get(0));
 				clientesNuevos.clear();
 
-			} catch (SQLException e) { // TODO: handle exception
+			} catch (SQLException e) {
 
 				e.printStackTrace();
 
-			} finally { // Liberar recursos revisar el orden en el que se cierran
+			} finally {
 				cerrar_conexion(cn, ps, null);
 
 			}
@@ -181,14 +214,21 @@ public class Conexion {
 		
 	}
 	
-	
+	/**
+	 * Metodo para insertar un producto en la base de datos y 
+	 * guardarlo en el ArrayList de productos
+	 * @param productosNuevos ArrayList de producto recien creados
+	 * @param productosPrincipal ArrayList de producto guardados
+	 */
 	public void insertarProducto(ArrayList<Producto>productosNuevos,ArrayList<Producto>productosPrincipal) {
 
 		Conexion conexion = new Conexion();
 		Connection cn = null;
 		PreparedStatement ps = null;
 
-		// Crear sentencia SQL para insertar en la base de datos
+		/**
+		 * Crear sentencia SQL para insertar en la base de datos
+		 */
 		insertTableSQL = "INSERT INTO producto VALUES (?,?,?)";
 
 		try {
@@ -204,11 +244,11 @@ public class Conexion {
 			productosPrincipal.add(productosNuevos.get(0));
 			productosNuevos.clear();
 
-		} catch (SQLException e) { // TODO: handle exception
+		} catch (SQLException e) {
 
 			e.printStackTrace();
 
-		} finally { // Liberar recursos revisar el orden en el que se cierran
+		} finally {
 			cerrar_conexion(cn, ps, null);
 
 		}
@@ -216,14 +256,19 @@ public class Conexion {
 	
 	}
 	
-	
+	/**
+	 * Metodo para cambiar la cantidad de un producto en la base de datos al realizar el pedido
+	 * @param p producto al cual se le cambia la cantidad
+	 */
 	public void updateCantidadProducto(Producto p) {
 
 		Conexion conexion = new Conexion();
 		Connection cn = null;
 		Statement stm = null;
 
-		// Crear sentencia SQL para actualizar la cantidad de producto en la base de datos
+		/**
+		 * Crear sentencia SQL para actualizar la cantidad de producto en la base de datos
+		 */
 		updateTableSQL = "UPDATE producto set cantidad =" + p.getCantidad() + " where nombre='"+p.getNombre()+"'";
 
 		try {
@@ -232,25 +277,30 @@ public class Conexion {
 			stm = cn.createStatement();
 			stm.executeUpdate(updateTableSQL);
 
-		} catch (SQLException e) { // TODO: handle exception
+		} catch (SQLException e) {
 
 			e.printStackTrace();
 
-		} finally { // Liberar recursos revisar el orden en el que se cierran
+		} finally {
 			cerrar_conexion(cn, stm, null);
 
 		}
 
 	}
 	
-	
+	/**
+	 * Metodo para guardar los datos de un pedido en la base de datos
+	 * @param pedi pedido realizado
+	 */
 	public void insertarPedido(Pedido pedi) {
 
 		Conexion conexion = new Conexion();
 		Connection cn = null;
 		PreparedStatement ps = null;
 
-		// Crear sentencia SQL para insertar en la base de datos
+		/**
+		 *  Crear sentencia SQL para insertar en la base de datos
+		 */
 		insertTableSQL = "INSERT INTO pedido VALUES (?,?,?,?,?)";
 
 		try {
@@ -281,11 +331,11 @@ public class Conexion {
 				
 			}
 
-		} catch (SQLException e) { // TODO: handle exception
+		} catch (SQLException e) {
 
 			e.printStackTrace();
 
-		} finally { // Liberar recursos revisar el orden en el que se cierran
+		} finally {
 			cerrar_conexion(cn, ps, null);
 
 		}
