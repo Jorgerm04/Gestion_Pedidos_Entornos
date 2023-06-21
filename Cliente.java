@@ -16,11 +16,11 @@ public class Cliente {
 	
 	/**
 	 * Contructor con parametros de Cliente
-	 * @param nombre
-	 * @param apellidos
-	 * @param fecha 
-	 * @param telefono
-	 * @param direccion
+	 * @param nombre nomnbre del cliente
+	 * @param apellidos apellidos del cliente
+	 * @param fecha fecha de alta del cliente
+	 * @param telefono telefono del cliente
+	 * @param direccion direccion del cliente
 	 */
 	public  Cliente(String nombre,String apellidos,String fecha,String telefono,String direccion){
 		this.Nombre=nombre.toLowerCase();
@@ -36,7 +36,6 @@ public class Cliente {
 	public Cliente() {
 		
 	}
-	//GETTERS AND SETTERS//
 	public String getNombre() {
 		return Nombre;
 	}
@@ -77,6 +76,11 @@ public class Cliente {
 		Direccion = direccion;
 	}
 	
+	/**
+	 * Metodo para crear un cliente y añadirlo al ArrayList de clientes nuevos
+	 * @param clientesNuevos ArrayList de clientes recien creados
+	 * @param clientesPrincipal ArrayList de clientes guardados
+	 */
 	public void crearCliente(ArrayList<Cliente>clientesNuevos,ArrayList<Cliente>clientesPrincipal) {
 		Scanner sca= new Scanner(System.in);
 		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
@@ -91,7 +95,9 @@ public class Cliente {
         
         String fechaAlta = fechaFormateada;
 
-        //Comprobacion del numero de telefono
+        /**
+         * Comprobacion del telefono
+         */
         boolean valido=false;
         
         String telefono=null;
@@ -115,7 +121,9 @@ public class Cliente {
             }
         	
         }
-        //Finaliza la comprobacion del telefono
+        /**
+         * Finaliza la comprobacion del telefono
+         */
 
         System.out.println("Introduce la direccion:");
         String direccion = sca.nextLine();
@@ -128,8 +136,8 @@ public class Cliente {
 	}
 	
 	/**
-	 * Metodo para mostrar los distintos clientes
-	 * @param c
+	 * Metodo para mostrar los datos de un cliente seleccionado
+	 * @param c ArrayList de clientes guardados 
 	 */
 	public void mostrarCliente(ArrayList<Cliente> c) {
 		boolean valido = false;

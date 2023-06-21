@@ -21,7 +21,18 @@ public class Pedido {
 
 	Scanner sc=new Scanner(System.in);
 	
-	
+	/**
+	 * Contructor de pedido con parametros
+	 * @param cliente cliente que ha realizado el pedido
+	 * @param producto1 primer producto del pedido
+	 * @param precio1 precio del primer producto
+	 * @param unidades1 unidades pedidas del primer producto
+	 * @param producto2 segundo producto del pedido
+	 * @param precio2 precio del segundo producto
+	 * @param unidades2 unidades pedidas del segundo producto
+	 * @param importeTotal importe total del pedido
+	 * @param FechaPedido fecha en la que se ha realizado el pedido
+	 */
 	public Pedido(Cliente cliente, Producto producto1, double precio1, int unidades1, Producto producto2,
 			double precio2, int unidades2, double importeTotal,String FechaPedido) {
 		this.cliente = cliente;
@@ -36,13 +47,12 @@ public class Pedido {
 	}
 	
 	/**
-	 * Contructor vacio de la clase Pedido
+	 * Contructor vacio de Pedido
 	 */
 	 public Pedido() {
 		 
 	 }
 	 
-	 //GETERS AND SETERS//
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -116,7 +126,12 @@ public class Pedido {
 	public void setFechaPedido(String fechaPedido) {
 		this.fechaPedido = fechaPedido;
 	}
-
+	
+	
+	/**
+	 * Metodo para iniciar sesion como cliente antes de realizar el pedido
+	 * @param clientesPricipal ArrayList de clientes guardados
+	 */
 	public void inicioSesion(ArrayList<Cliente>clientesPricipal) {
 		boolean valido = false;
 				
@@ -139,6 +154,10 @@ public class Pedido {
 	}
 	
 	
+	/**
+	 * Metodo para agregar el primer producto al pedido
+	 * @param productosPrincipal ArrayList de productos guardados
+	 */
 	public void agregarProducto1(ArrayList<Producto>productosPrincipal) {
 		
 		System.out.println("Selecciona un producto");
@@ -175,7 +194,10 @@ public class Pedido {
 		}
 	}
 	
-	
+	/**
+	 * Metodo para agregar un segundo producto al pedido
+	 * @param productosPrincipal ArrayList de productos guardados
+	 */
 	public void agregarProducto2(ArrayList<Producto>productosPrincipal) {
 		
 		System.out.println("Selecciona un producto");
@@ -212,7 +234,8 @@ public class Pedido {
 	}
 	
 	/**
-	 * Metodo que muestra el precio, la cantidad de productos y mas informacion sobre el pedido realizado
+	 * Metodo que muestra el precio, la cantidad de productos y mas informacion
+	 *  sobre el pedido realizado
 	 */
 	public void mostrarPedido() {
 		 System.out.println("\nCANT.\t\tPRODUCTO\t\tPRECIO UD.\t\tTOTAL");
